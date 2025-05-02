@@ -27,7 +27,7 @@ def main():
     llm = ChatOpenAI(model="gpt-3.5-turbo", temperature=0)
     chain = sumary_prompt | llm
     linkedin_profile = get_linkedin_profile()
-    res = chain.invoke({"information": linkedin_profile\})
+    res = chain.invoke({"information": linkedin_profile})
     print(res)
     
 if __name__ == "__main__":
