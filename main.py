@@ -4,7 +4,7 @@ from langchain_core.prompts import PromptTemplate
 from langchain_openai import ChatOpenAI
 
 from third_parties.linkedin import get_linkedin_profile
-
+from agents.linkedin_lookup import lookup
 
 
 information = """
@@ -16,7 +16,7 @@ Over time, Gates has reduced his role at Microsoft to focus on his philanthropic
 
 Gates is founder and chairman of several other companies, including BEN, Cascade Investment, TerraPower, Gates Ventures, and Breakthrough Energy. In 2010, he and Warren Buffett founded the Giving Pledge, whereby they and other billionaires pledge to give at least half their wealth to philanthropy. Named as one of the 100 most influential people of the 20th century by Time magazine in 1999, he has received numerous other honors and accolades, including a Presidential Medal of Freedom, awarded jointly to him and French Gates in 2016 for their philanthropic work. The subject of several documentary films, he published the first of three planned memoirs, Source Code: My Beginnings, in 2025.
     """
-def main():
+def third_party():
     load_dotenv()
     summary_template = """
     Given the linkedin information {information} about a person I want you to create:
@@ -30,5 +30,9 @@ def main():
     res = chain.invoke({"information": linkedin_profile})
     print(res)
     
+def linkedin_lookup():
+    lookup_agent = lookup("Nguyen Kim Long ANZ hcltech")
+    print(lookup_agent)
+    
 if __name__ == "__main__":
-    main()
+    linkedin_lookup()
