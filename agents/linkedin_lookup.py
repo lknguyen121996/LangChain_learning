@@ -3,14 +3,13 @@ from dotenv import load_dotenv
 from langchain_openai import ChatOpenAI
 from langchain_core.prompts import PromptTemplate
 from langchain_core.tools import Tool
-from langgraph.prebuilt import (
-    create_react_agent
-)
+from langgraph.prebuilt import create_react_agent
 from langsmith import Client
 from langchain_community.tools.tavily_search import TavilySearchResults
 
 
 load_dotenv()
+
 
 def lookup(name: str) -> str:
     model = ChatOpenAI(temperature=0, model="gpt-4o-mini")
@@ -24,13 +23,10 @@ def lookup(name: str) -> str:
         Tool(
             name="Crawl_4_profile",
             func=TavilySearchResults(k=4).run,
-            description="useful for when you need the linkedin url of a person"
+            description="useful for when you need the linkedin url of a person",
         )
     ]
-    agent = create_react_agent(
-        model=model,
-        tools=tools_for_agent
-    )
+    agent = create_react_agent(model=model, tools=tools_for_agent)
     formatted_input = prompt_template.format(name=name)
     resp = agent.invoke({"messages": [formatted_input]})
     return resp["messages"]

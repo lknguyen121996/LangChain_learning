@@ -10,6 +10,7 @@ langchain-openapi = "*"
 langgraph = "*"
 langchain = "*"
 langchain-community = "*"
+black = "*"
 
 [dev-packages]
 
