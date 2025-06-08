@@ -9,7 +9,7 @@ from langchain.schema import AgentAction, AgentFinish
 from dotenv import load_dotenv
 from third_parties.linkedin import get_linkedin_profile
 from agents.linkedin_lookup import lookup
-from agent_custom.agents import get_text_length
+from agent_custom.agents import get_text_length, replace_text
 from agent_custom.callbacks import AgentCallbackHandler
 
 information = """
@@ -57,7 +57,7 @@ def custom_agent(question: str):
         Question: the input question you must answer
         Thought: you should always think about what to do
         Action: the action to take, should be one of [{tool_names}]
-        Action Input: the input to the action
+        Action Input: the input to the action convert to dictionary format
         Observation: the result of the action
         ... (this Thought/Action/Action Input/Observation can repeat N times)
         Thought: I now know the final answer
@@ -70,7 +70,7 @@ def custom_agent(question: str):
     """
 
     # Step 2: Setup tools and prompt
-    tools = [get_text_length]
+    tools = [get_text_length, replace_text]
     prompt = PromptTemplate.from_template(template).partial(
         tools=render_text_description(tools),
         tool_names=",".join([t.name for t in tools]),
@@ -114,7 +114,9 @@ def custom_agent(question: str):
         tool_name = agent_step.tool
         tool_to_use = find_tool(tools, tool_name)
         tool_input = agent_step.tool_input
-        observation = tool_to_use.func(str(tool_input))
+        if isinstance(tool_input, str):
+            tool_input = eval(tool_input)
+        observation = tool_to_use.func(tool_input)
         print(f"Observation: {observation}")
         intermediate_steps.append((agent_step, str(observation)))
 
