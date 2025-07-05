@@ -117,7 +117,7 @@ def custom_agent(question: str):
         if isinstance(tool_input, str):
             tool_input = eval(tool_input)
         observation = tool_to_use.func(tool_input)
-        print(f"Observation: {observation}")
+        # print(f"Observation: {observation}")
         intermediate_steps.append((agent_step, str(observation)))
 
 

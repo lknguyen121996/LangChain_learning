@@ -19,7 +19,7 @@ def get_text_length(data: dict) -> int:
         int: The length of the input string in the 'text' field.
     """
     text = data.get("text", "")
-    print("hey u are using me")
+    print("hey u are using my function to get text length")
     return len(text)
 
 @tool
@@ -43,4 +43,5 @@ def replace_text(data: dict) -> str:
     text = data.get("text", "")
     old = data.get("old", "")
     new = data.get("new", "")
+    print("hey u are using my function to remove text")
     return text.replace(old, new)
